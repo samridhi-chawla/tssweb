@@ -42,7 +42,7 @@ class Fetch {
 
 	public function display() {
 		if($this->_current_page) {
-			// display resulting page
+			$this->
 		}
 	}
 
@@ -65,7 +65,7 @@ class Fetch {
 	}
 
 	private function _setUser($mobile_hash) {
-		$this->_user = Client::load($mobile_hash);	
+		$this->_user = Client::load($mobile_hash);
 	}
 
 	private function _setVerifyID($verify_id) {
@@ -89,18 +89,17 @@ class Fetch {
 	}
 
 	private function _setCurrentPageRequests() {
-		$client = Client::load($this->_mobile_hash);
 		if("home" == $this->GET['page']) {
-			$this->_display_message = "Hello";
-			if ($client->name) {
-				$this->_display_message .= $client->name;
+			$this->display_message = "Hello";
+			if ($this->_user->name) {
+				$this->display_message .= $this->_user->name;
 			} else{
-				$this->_display_message .= "User";
+				$this->display_message .= "User";
 			}
 		} else if("updates" == $this->GET['page']){
-			$this->_display_message = self::getTSSUpdates(4);
+			$this->display_message = self::getTSSUpdates(4);
 		} else if("blog" == $this->GET['page']) {
-			$this->_display_message = self::getBlogUpdates(4); 
+			$this->display_message = self::getBlogUpdates(4); 
 		} else if("query" == $this->GET['query']) {
 			if(isset($this->GET['query'])) {
 				$query = trim($this->GET['query']);
@@ -110,9 +109,13 @@ class Fetch {
 				if(strlen($contact[0]) && strlen($query[0])) {
 					$contact = explode(" ", $contact[0]);
 					$query = "INSERT INTO `query` (`query`, `mobile_hash`, `email`) VALUES ('$query', '$this->_mobile_hash', '$contact')";
-
+					$db = Database::getInstance();
+					$mysqli = Database::getConnection();
+					if(!$mysqli->query($query))
+						throw new Exception("unable to post your query. Please try again later.", 1);
+					$this->display_message = "we have received your query and will respond to it within 3 working days.";
 				} else {
-					$this->_display_message = "Please use the correct syntax to post your query.";
+					$this->display_message = "Please use the correct syntax to post your query.";
 				}
 			}
 		} else if("name" == $this->GET['page']) {
@@ -121,8 +124,9 @@ class Fetch {
 				if(preg_match($val_name, $this->_GET['name'])) {
 					$this->_user->name = $this->_GET['name'];
 					$this->_user->save();
+					$this->display_message = "name has been successfully updated.";
 				} else {
-					$this->_display_message = "Only alphabets, . and space are allowed in name!";
+					$this->display_message = "Only alphabets, . and space are allowed in name!";
 				}
 			}
 		}
