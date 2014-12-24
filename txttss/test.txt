@@ -1,0 +1,25 @@
+test
+Array ( 
+	[txtweb-message] => 
+	[txtweb-id] => c3e112e6-8ca0-46bc-8da5-86158a105f06 
+	[txtweb-verifyid] => 1e375a0927139100164f15d3ff29712e4a71c818b307f30fe624c6ba0b961ddb0780a6e719df5c054580e12bb2e69c2af81afc3b613ac8816c29b2940f03bebf35d92b406171e453c8b8ffc8496179bdc7dcb445d3c078d7bdfbeb5669dc6a99cae18ea77d3d077c 
+	[txtweb-mobile] => 5dee1c0b-7a71-426e-a5c9-4788e79368f4 
+	[txtweb-aggid] => 21000 
+	[txtweb-protocol] => 2100 
+	[txtweb-operator] => UNKNOWN_OPERATOR 
+	[txtweb-circle] => DEFAULT_CIRCLE 
+	[txtweb-user-name] => 
+	[txtweb-user-id] => 
+)
+Array ( 
+	[txtweb-message] => 
+	[txtweb-id] => c3e112e6-8ca0-46bc-8da5-86158a105f06 
+	[txtweb-verifyid] => 1e375a0927139100164f15d3ff29712e4a71c818b307f30fe624c6ba0b961ddb0780a6e719df5c054580e12bb2e69c2af81afc3b613ac8816c29b2940f03bebf35d92b406171e453c8b8ffc8496179bdc7dcb445d3c078d7bdfbeb5669dc6a99cae18ea77d3d077c 
+	[txtweb-mobile] => 5dee1c0b-7a71-426e-a5c9-4788e79368f4 
+	[txtweb-aggid] => 21000 
+	[txtweb-protocol] => 2100 
+	[txtweb-operator] => UNKNOWN_OPERATOR 
+	[txtweb-circle] => DEFAULT_CIRCLE 
+	[txtweb-user-name] => 
+	[txtweb-user-id] => 
+)

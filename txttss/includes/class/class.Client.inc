@@ -9,6 +9,7 @@ Class Client {
 		foreach ($details as $detail => $value) {
 			$this->$detail = $value;
 		}
+		$this->_mobile_hash = $details['mobile_hash'];
 	}
 
 	public function __set($name, $value) {
@@ -16,8 +17,6 @@ Class Client {
 			$this->_setName($value);
 		} else if("location" == $name) {
 			$this->_setLocation($value);
-		} else {
-			throw new ExceptionClient("Invalid property initialization via __set : ".$name, 1);
 		}
 	}
 
@@ -25,46 +24,65 @@ Class Client {
 		if("name" == $name) {
 			return $this->_name;
 		} else if("location" == $name) {
-			return $this->_getLocation();
+			return $this->_location;
 		} else if("mobile_hash" == $name) {
 			return $this->_mobile_hash;
+		}
+	}
+	
+	public static function getLocation($mobile_hash) {
+		$loc_xml = file_get_contents("http://api.txtweb.com/v1/location/get?txtweb-mobile=$mobile_hash"); 
+		$loc_dom = new DOMDocument();
+		$loc_dom->loadXML($loc_xml);
+		$location = $loc_dom->getElementsByTagName('city')->item(0)->nodeValue;
+		return $location;
 	}
 
 	private function _setName($name) {
-		$regex = "/^((aA-zZ)+[ .])+(aA-zZ)+ $/";
-		if(preg_match($regex, $name)) {
+		$regex = "/^((aA-zZ)+[ .])+(aA-zZ)+$/";
+		if(!strlen($name) || preg_match($regex, $name)) {
 			$this->_name = $name;
 		} else {
 			throw new ExceptionClient("Name must only be a combination of alphabets, . and spaces!", 2);
 		}
 	}
 
+	private function _setLocation($location) {
+		$this->_location = $location;
+		if(trim($this->location) == "" && isset($this->mobile_hash)) {
+			$this->_location = Client::getLocation($this->mobile_hash);
+		}
+	}
+
 	public static function load($mobile_hash, $autocreate = true) {
 		$val_hash = "/^\w{8}\-\w{4}\-\w{4}\-\w{4}\-\w{12}$/";
-		if(preg_match($val_hash, $mobile_hash))
-			$this->_mobile_hash = $mobile_hash;
-		else
-			throw new ExceptionFetch("Request via invalid mobile hash", 5);
+		if(!preg_match($val_hash, $mobile_hash))
+			throw new ExceptionClient("Request via invalid mobile hash", 3);
 
 		$db = Database::getInstance();
+		$mysqli = $db->getConnection();
+		$query = "SELECT `name`, `location`, `mobile_hash` FROM `users` WHERE `mobile_hash` = '$mobile_hash'";
+		if(!$result=$mysqli->query($query)) {
+			throw new ExceptionClient("unable to load user details", 4);
+		}
 
-		$query = "SELECT `name`, `location`, `mobile_hash` FROM `users` WHERE `mobile_hash` = '$mobile_hash";
-		$result=$db->mysqli($query);
 		if($row = $result->fetch_assoc()) {
-			return new Client($row);
-		} else if($autocreate) {
-			$loc_xml = file_get_contents("http://api.txtweb.com/v1/location/get?txtweb‐mobile={$this->mobile_hash}");
-			$loc_dom = new DOMDocument();
-			$loc_dom->loadXML($loc_xml);
-			$this->location = $loc_dom->getElementsByTagName('city')->item(0)->nodeValue;
-
-			$query = "INSERT INTO `users` (`mobile_hash`, `join_date`) VALUES ('$mobile_hash', CURRENT_TIMESTAMP)";
-			if(!$db->mysqli($query)) {
-				throw new ExceptionClient("unable to save user details!", 3);
+			$query = "UPDATE `users` SET `last_access` = CURRENT_TIMESTAMP WHERE `mobile_hash` = '$mobile_hash'";
+			if($mysqli->query($query)) {
+				return new Client($row);
+			} else {
+				throw new Exception("Error Updating last access date", 5);
 			}
-			return new Client(array($mobile_hash));
+		} else if($autocreate) {
+			$location = Client::getLocation($mobile_hash);
+
+			$query = "INSERT INTO `users` (`mobile_hash`, `location`, `join_date`) VALUES ('$mobile_hash', '$location', CURRENT_TIMESTAMP)";
+			if(!$mysqli->query($query)) {
+				throw new ExceptionClient("unable to save user details!", 6);
+			}
+			return new Client(array("mobile_hash" => $mobile_hash, "location" => $location));
 		} else {
-			throw new Exception ("unable to find any such user!", 4);
+			throw new ExceptionClient("unable to find any such user!", 7);
 		}
 	}
 
@@ -76,7 +94,7 @@ Class Client {
 		if($mysql->query($query)) {
 			return true;
 		} else {
-			throw new Exception("unable to save users details!", 5);
+			throw new ExceptionClient("unable to save users details!", 8);
 		}
 	}
 }

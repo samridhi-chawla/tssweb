@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<txtWeb>
+	<status>
+		<code>0</code>
+		<message>success</message>
+	</status>
+	<location mobile="XXYYXXYY‐XXYY‐XXYY‐XXYY‐XXYYXXYYXXYY">
+		<default>true</default>
+		<userlocationtext>Bangalore</userlocationtext>
+		<geolocation>
+			<city>Bengaluru</city>
+			<province>Karnataka</province>
+			<country>IN</country>
+			<postalcode>560001</postalcode>
+		</geolocation>
+	</location>
+</txtWeb>

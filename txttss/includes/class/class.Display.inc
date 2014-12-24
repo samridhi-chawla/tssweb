@@ -2,26 +2,30 @@
 
 Class Display {
 	private $_message;
-	private $_enable_cache;
 	private $_current_page;
 	private $_default_message = array(
 		'home' => 'Welcome to TSS SMS Services. Please select any of the following options:
-			<br/><a href="index.php?page=updates">Latest News</a><br/>
-			<br/><a href="index.php?page=blog">Blog Updates</a><br/>
-			<br/><a href="index.php?page=query">Queries</a><br/>
-			<br/><a href="index.php?page=location">Set your location</a><br/>
-			<br/><a href="index.php?page=name">Set your name</a><br/>',
+			<br/><a href="http://tss-gndu.com/txttss/?page=updates" class="txtweb-menu-for">Latest News</a><br/>
+			<br/><a href="http://tss-gndu.com/txttss/?page=blog" class="txtweb-menu-for">Blog Updates</a><br/>
+			<br/><a href="http://tss-gndu.com/txttss/?page=query" class="txtweb-menu-for">Queries</a><br/>
+			<br/><a href="http://tss-gndu.com/txttss/?page=location" class="txtweb-menu-for">Set your location</a><br/>
+			<br/><a href="http://tss-gndu.com/txttss/?page=name" class="txtweb-menu-for">Set your name</a><br/>',
 		'updates' => 'Latest on TSS<br/>',
 		'blog' => 'TSS Blog<br/>',
-		'query' => '',
+		'query' => 'TSS SMS Services<br /><br />
+			Please reply with your contact details and query : 
+			<form action="http://tss-gndu.com/txttss/?page=query" class="txtweb‐form" method="get">
+			 query<input type="text" name="txtweb‐message"/>
+			<input type="submit" value="Submit" />
+			</form>
+			e.g. someone@domain.com How to join TSS?',
 		'location' => '<form action="http://api.txtweb.com/location/set" method="POST" class="txtweb‐form">
 			location<input name="txtweb‐location" type="text" />
-			<input type="hidden" name="txtweb‐callback‐message" value="" />
 			<input type="submit" value="Submit" />
 			</form>',
 		'name' => 'TSS SMS Services<br /><br />
 			Set your name : 
-			<form action="index.php?p=name" class="txtweb‐form" method="get">
+			<form action="http://tss-gndu.com/txttss/?page=name" class="txtweb‐form" method="get">
 			name<input type="text" name="txtweb‐message" />
 			<input type="submit" value="Submit" />
 			</form>'
@@ -31,9 +35,6 @@ Class Display {
 		foreach ($message as $detail => $value) {
 			$this->$detail = $value;
 		}
-		if(!isset($_current_page)) {
-			$this->$_current_page = "home";
-		}
 	}
 
 	public function __set($name, $value) {
@@ -42,9 +43,7 @@ Class Display {
 		} else if("enable_cache" == $name) {
 			$this->_setCache($value);
 		} else if("current_page" == $name){
-			$this->_setCurrentPage($location);
-		} else {
-			throw new ExceptionDisplay("Invalid property initialization via __set : ".$name, 1);
+			$this->_setCurrentPage($value);
 		}
 	}
 
@@ -52,17 +51,14 @@ Class Display {
 		return '
 		<html>
 		<head>
-		  <title> Check out the new releases </title>
-		  <meta name="txtweb‐appkey" content="ABCDEFGH‐IJKL‐MNOP‐QRST‐UVWXYZ01234" />
+		  <title> TSS Text Services </title>
+		   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		  <meta name="txtweb-appkey" content="73684a1f-0c3b-4144-8b0b-072950eb2b03" />
 		</head>
 		<body>'.
-		  $this->message;
+		  $this->_message
 		.'</body>
 		</html>';
-	}
-
-	private function _setCache($time) {
-		
 	}
 
 	private function _setMessage($msg) {
@@ -70,8 +66,16 @@ Class Display {
 	}
 
 	private function _setCurrentPage($page) {
-		$this->_current_page = $page;
-		$this->_setMessage($this->_getMessage().$this->_default_message[$page]);
+		if(!empty($page) || !in_array($page, $this->_default_message)) {
+			$this->_current_page = $page;
+		} else {
+			$this->_current_page = "home";
+		}
+		$this->_setMessage($this->_getMessage()["before"].$this->_default_message[$this->_current_page].$this->_getMessage()["after"]);
+	}
+
+	private function _getMessage() {
+		return $this->_message;
 	}
 
 	static function getTSSUpdates($start, $count) {
@@ -89,8 +93,13 @@ Class Display {
 		$updates = $blog->fetchLatest($count);
 		$html = "";
 		foreach($updates as $post) {
-			$html .= "<a href=\"index.php?p=blog&post=".$post['post_no']."\">".$post['title']."</a><br/>";
+			$html .= "<a href=\"http://tss-gndu.com/txttss/?page=blog&post=".$post['post_no']."\">".$post['title']."</a><br/>";
 		}
+		return $html;
+	}
+	static function getBlogPost($post_no) {
+		$post = Blog::fetchPostContent($post_no);
+		$html = $post['title']."<br/>".$post['content'];
 		return $html;
 	}
 }

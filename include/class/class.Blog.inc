@@ -13,7 +13,7 @@ class Blog {
 	public function fetchLatest($start = 0, $count = NULL) {
 		$latestPost = $this->_xml->getElementsByTagName('item');
 		
-		$blogPost = array(
+		$blogPost = array(0 => array(
 			'post_no' => NULL,
 			'title' => "no posts found",
 			'desc' => "no posts found",
@@ -21,7 +21,7 @@ class Blog {
 			'link' => "http://blog.tss-gndu.com",
 			'author' => "n/a",
 			'date' => "Day, date, month, year"
-		);
+		));
 
 		$i = 0;
 		foreach ($latestPost as $node) {
@@ -51,9 +51,22 @@ class Blog {
 	}
 
 	static function fetchPostContent($post_no=NULL) {
-		$xml = new DOMDocument();
-		$xml->loadXML("http://blog.tss-gndu.com/?feed=rss2&p=".$post_no);
-		$xml->
+		$xml = new self();
+		$latest = $xml->fetchLatest();
+		foreach($latest as $post) {
+			if(!$post || $post['post_no'] == $post_no) {
+				return $post;
+			}
+		}
+		return array(
+			"post_no" => NULL,
+			"title" => "no such post exists",
+			"desc" => "no such post exists",
+			"content" => "no such post exists",
+			"link" => "#",
+			"author" => "no author",
+			"date" => "no date"
+		);
 	}
 }
 

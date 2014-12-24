@@ -1,0 +1,26 @@
+[29-Aug-2014 11:19:25 America/Denver] PHP Warning:  POST Content-Length of 15864565 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[29-Aug-2014 11:21:33 America/Denver] PHP Warning:  POST Content-Length of 15864609 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[29-Aug-2014 11:21:43 America/Denver] PHP Warning:  POST Content-Length of 15864603 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[29-Aug-2014 11:23:55 America/Denver] PHP Warning:  POST Content-Length of 15864597 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[29-Aug-2014 11:25:37 America/Denver] PHP Warning:  POST Content-Length of 15864613 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[29-Aug-2014 11:41:29 America/Denver] PHP Warning:  POST Content-Length of 15864608 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[30-Aug-2014 07:54:51 America/Denver] PHP Warning:  POST Content-Length of 15864521 bytes exceeds the limit of 8388608 bytes in Unknown on line 0
+[23-Oct-2014 12:05:22 America/Denver] PHP Fatal error:  Call to undefined function timezone_offset_string() in /home/tssgndu/public_html/tym.php on line 6
+[23-Oct-2014 12:05:50 America/Denver] PHP Warning:  timezone_offset_get() expects exactly 2 parameters, 0 given in /home/tssgndu/public_html/tym.php on line 6
+[23-Oct-2014 12:06:31 America/Denver] PHP Fatal error:  Non-static method DateTimeZone::getOffset() cannot be called statically in /home/tssgndu/public_html/tym.php on line 6
+[23-Oct-2014 12:22:40 America/Denver] PHP Warning:  include(main/copyFolder.php): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 2
+[23-Oct-2014 12:22:40 America/Denver] PHP Warning:  include(main/copyFolder.php): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 2
+[23-Oct-2014 12:22:40 America/Denver] PHP Warning:  include(): Failed opening 'main/copyFolder.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/tssgndu/public_html/index.php on line 2
+[23-Oct-2014 12:23:04 America/Denver] PHP Warning:  include(main/copyFolder.php): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 2
+[23-Oct-2014 12:23:04 America/Denver] PHP Warning:  include(main/copyFolder.php): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 2
+[23-Oct-2014 12:23:04 America/Denver] PHP Warning:  include(): Failed opening 'main/copyFolder.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/tssgndu/public_html/index.php on line 2
+[05-Dec-2014 08:13:14 America/Denver] PHP Warning:  include(include/class/class.Blog.inc): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 4
+[05-Dec-2014 08:13:14 America/Denver] PHP Warning:  include(include/class/class.Blog.inc): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 4
+[05-Dec-2014 08:13:14 America/Denver] PHP Warning:  include(): Failed opening 'include/class/class.Blog.inc' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/tssgndu/public_html/index.php on line 4
+[05-Dec-2014 08:13:14 America/Denver] PHP Fatal error:  Class 'Blog' not found in /home/tssgndu/public_html/index.php on line 7
+[05-Dec-2014 08:13:19 America/Denver] PHP Warning:  include(include/class/class.Blog.inc): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 4
+[05-Dec-2014 08:13:19 America/Denver] PHP Warning:  include(include/class/class.Blog.inc): failed to open stream: No such file or directory in /home/tssgndu/public_html/index.php on line 4
+[05-Dec-2014 08:13:19 America/Denver] PHP Warning:  include(): Failed opening 'include/class/class.Blog.inc' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/tssgndu/public_html/index.php on line 4
+[05-Dec-2014 08:13:19 America/Denver] PHP Fatal error:  Class 'Blog' not found in /home/tssgndu/public_html/index.php on line 7
+[05-Dec-2014 08:15:16 America/Denver] PHP Warning:  DOMDocument::load(): I/O warning : failed to load external entity &quot;/home/tssgndu/public_html/blogrss2.xml&quot; in /home/tssgndu/public_html/include/class/class.Blog.inc on line 8
+[05-Dec-2014 08:15:16 America/Denver] PHP Warning:  DOMDocument::load(): I/O warning : failed to load external entity &quot;/home/tssgndu/public_html/error.xml&quot; in /home/tssgndu/public_html/include/class/class.Blog.inc on line 9
